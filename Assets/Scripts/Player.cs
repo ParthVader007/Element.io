@@ -1,40 +1,62 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class Player : MonoBehaviour {
-    public bool fire;
-    public bool water;
-    public bool earth;
-    public GameObject[] elements;
+    public float speed, invunerableSpeed;
+    public Rigidbody2D rb;
+    public bool fire, water, earth;
 
-    public void ChangeToFire()
+    private bool invunerable = false;
+
+    private void ChangeToFire()
     {
         fire = true;
         water = false;
         earth = false;
     }
 
-    public void ChangeToWater()
+    private void ChangeToWater()
     {
         fire = false;
         water = true;
         earth = false;
     }
 
-    public void ChangeToEarth()
+    private void ChangeToEarth()
     {
         fire = false;
         water = false;
         earth = true;
     }
-	// Use this for initialization
-	void Start () {
-		
+
+    public bool GetFire()
+    {
+        return fire;
+    }
+
+    public bool GetWater()
+    {
+        return water;
+    }
+
+    public bool GetEarth()
+    {
+        return earth;
+    }
+
+    // Use this for initialization
+    void Start () {
+        rb = GetComponent<Rigidbody2D>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    // Update is called once per frame
+    void Update()
+    {
+        // transform.Translate(speed * Time.deltaTime, 0, 0);
+        Vector2 moveVec = new Vector2(CrossPlatformInputManager.GetAxis("Horizontal"), CrossPlatformInputManager.GetAxis("Vertical")) * 10 * speed;
+        
+        Debug.Log(moveVec);
+        transform.Translate(moveVec * Time.deltaTime);    }
 }
